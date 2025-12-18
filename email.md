@@ -115,8 +115,10 @@ The malware uses `h64` binary to disguise the miner process as "node":
 | React | 19.2.0 (vulnerable) |
 | Next.js | 16.0.7 (vulnerable) |
 | Node.js | 18.19.1 |
-| OS | Ubuntu Linux (ARM64) |
-| Hosting | Oracle Cloud VPS |
+| OS | Ubuntu 24.04.3 LTS (Noble Numbat) |
+| Kernel | 6.14.0-1017-oracle |
+| Architecture | ARM64 (aarch64) |
+| Hosting | Oracle Cloud Infrastructure (OCI) |
 
 ## Indicators of Compromise (IOCs)
 
