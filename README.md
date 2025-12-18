@@ -156,12 +156,101 @@ crontab -l
 
 ---
 
-## Kemungkinan Sumber Infeksi
+## Sumber Infeksi: CVE-2025-55182 (React2Shell)
 
-1. **SSH Key yang Compromised** - Cek `~/.ssh/authorized_keys` untuk key yang tidak dikenal
-2. **Password Lemah** - Jika SSH password authentication aktif
-3. **Service yang Vulnerable** - Aplikasi web yang outdated
-4. **Script dari Internet** - Menjalankan script curl/wget tanpa verifikasi
+Setelah investigasi, ditemukan bahwa sumber infeksi adalah **vulnerability critical di React Server Components dan Next.js**.
+
+### Detail CVE
+
+| Detail | Keterangan |
+|--------|------------|
+| CVE ID | **CVE-2025-55182** |
+| Nama | React2Shell |
+| Severity | **CVSS 10.0** (CRITICAL - Maximum!) |
+| Tipe | Remote Code Execution (RCE) |
+| Penyebab | Insecure Deserialization di React Server Components |
+
+### Versi yang Terdampak
+
+| Package | Versi Vulnerable | Versi Patched |
+|---------|------------------|---------------|
+| React | 19.0, 19.1.0, 19.1.1, 19.2.0 | 19.0.1, 19.1.2, **19.2.1+** |
+| Next.js | < 16.0.10 | **16.0.10+** |
+
+### Framework Terdampak
+
+- Next.js
+- React Router
+- Waku
+- @parcel/rsc
+- @vitejs/plugin-rsc
+- rwsdk
+
+### Timeline Serangan
+
+| Tanggal | Kejadian |
+|---------|----------|
+| 29 Nov 2025 | Vulnerability dilaporkan ke Meta Bug Bounty |
+| 3 Des 2025 | Fix dipublikasikan, CVE diumumkan |
+| 5 Des 2025 | Eksploitasi massal dimulai |
+| **5 Des 2025** | **Malware pertama muncul di VPS ini!** |
+
+### Cara Kerja Serangan
+
+1. Attacker mengirim HTTP request dengan payload berbahaya
+2. React Server Components memproses request tersebut
+3. Insecure deserialization memungkinkan **Remote Code Execution**
+4. Attacker dapat menjalankan command apapun di server
+5. Cryptominer di-download dan dijalankan
+
+### Statistik (dari Wiz Research)
+
+- **39%** cloud environments memiliki React/Next.js yang vulnerable
+- **61%** Next.js deployments terekspos ke publik
+- Exploit memiliki **~100% reliability**
+- **Tidak butuh authentication** untuk eksploitasi
+
+### Referensi
+
+- [React Official Security Advisory](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
+- [Next.js Security Advisory CVE-2025-66478](https://nextjs.org/blog/CVE-2025-66478)
+- [Wiz Blog - React2Shell Analysis](https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182)
+- [Palo Alto Unit42 - Exploitation Report](https://unit42.paloaltonetworks.com/cve-2025-55182-react-and-cve-2025-66478-next/)
+- [Akamai Security Research](https://www.akamai.com/blog/security-research/cve-2025-55182-react-nextjs-server-functions-deserialization-rce)
+
+---
+
+## Cara Update (WAJIB!)
+
+### Update React & Next.js
+
+```bash
+# Masuk ke folder project
+cd /path/to/your/nextjs-project
+
+# Update ke versi terbaru
+npm update next react react-dom --save
+
+# Fix vulnerabilities
+npm audit fix --force
+
+# Verifikasi versi
+npm list next react
+```
+
+### Atau gunakan tool official:
+
+```bash
+npx fix-react2shell-next
+```
+
+### Setelah Update
+
+**PENTING:** Jika aplikasi kamu online dan unpatched sejak 4 Desember 2025, **WAJIB rotate semua secrets**:
+- Database credentials
+- API keys
+- JWT secrets
+- Environment variables sensitif
 
 ---
 
