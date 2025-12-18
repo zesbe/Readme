@@ -1,12 +1,4 @@
-# Security Report: Cryptominer Campaign Exploiting CVE-2025-55182
-
-## Email to: security@meta.com & security@vercel.com
-
----
-
 **Subject:** Cryptominer Malware Campaign Actively Exploiting CVE-2025-55182 (React2Shell) - Threat Intelligence Report
-
----
 
 Dear Security Team,
 
@@ -165,15 +157,3 @@ Best regards,
 [Your Email]
 [Your Organization - if applicable]
 
----
-
-## How to Send
-
-1. Copy the content above
-2. Send to **both**:
-   - security@meta.com (React team)
-   - security@vercel.com (Next.js team)
-3. Attach any malware samples if you saved them
-4. Consider also reporting to:
-   - CERT (https://www.cisa.gov/report)
-   - Abuse contacts for the mining pool IPs
